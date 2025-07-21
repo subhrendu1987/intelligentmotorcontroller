@@ -7,7 +7,7 @@ MATH_LIB = -lm
 # List of all your executable names
 # Add all your program's executable names here
 #EXECUTABLES = test my_other_program ...
-EXECUTABLES = test
+EXECUTABLES = test cg_main
 
 # Phony targets to prevent conflicts with files of the same name
 .PHONY: all clean
@@ -17,6 +17,8 @@ all:$(EXECUTABLES)
 test: test.c
 	$(CC) $(CFLAGS) test.c -o test $(MATH_LIB)
 
+cg_main: cg_main.c
+	$(CC) $(CFLAGS) cg_main.c -o cg_main $(MATH_LIB)
 
 # Rule to clean all executables
 clean:
