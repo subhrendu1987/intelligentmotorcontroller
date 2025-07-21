@@ -198,9 +198,9 @@ void drawPolarPlot(const Item items[], int n, PolarCoord cog, double max_radius)
     free(grid);
 }
 
-int inputItems(Item *items,int num_items){
-    // Get input for each item
-    for (int i = 0; i < num_items; i++) {
+int inputItems(Item *items,int num_items,double *max_r_for_plot){
+    int i=0;
+    for (; i < num_items; i++) {
         printf("\n--- Item %d ---\n", i + 1);
         printf("Enter weight: ");
         if (scanf("%lf", &items[i].weight) != 1) {
@@ -216,8 +216,8 @@ int inputItems(Item *items,int num_items){
             return 1;
         }
         // Update max_r_for_plot if current item's radius is larger
-        if (items[i].location.r > max_r_for_plot) {
-            max_r_for_plot = items[i].location.r;
+        if (items[i].location.r > *max_r_for_plot) {
+            *max_r_for_plot = items[i].location.r;
         }
 
         printf("Enter angle in degrees (theta): ");
@@ -229,4 +229,5 @@ int inputItems(Item *items,int num_items){
         }
         items[i].location.theta = angle_degrees * (M_PI / 180.0); // Convert degrees to radians
     }
+    return(i);
 }

@@ -6,12 +6,13 @@ int main() {
     Item *items = NULL;      // Pointer for array of items
     PolarCoord cog_result;   // To store the calculated center of gravity
     double max_r_for_plot = 0.0; // To determine the scale of the plot
+    char confirm_char;       // To store user's confirmation input
+
 
     // Prompt for number of items
     printf("Enter the number of items: ");
-    if (scanf("%d", &num_items) != 1 || *num_items <= 0) {
+    if (scanf("%d", &num_items) != 1 || num_items <= 0) {
         fprintf(stderr, "Invalid input. Please enter a positive integer for number of items.\n");
-        free(numItemsPtr);
         return 1;
     }
 
@@ -22,11 +23,10 @@ int main() {
         return 1;
     }
 
-    if(num_items!=inputItems(items,num_items)){
+    if(num_items!=inputItems(items,num_items, &max_r_for_plot)){
         fprintf(stderr, "Memory allocation for items failed! Exiting.\n");
         return 1;
     }
-
 
     // Calculate the center of gravity
     cog_result = calculateCenterOfGravityPolar(items, num_items);
@@ -39,9 +39,18 @@ int main() {
     if (max_r_for_plot == 0.0) {
         max_r_for_plot = 1.0;
     }
+    // Get confirmation from user before plotting
+    printf("\nDo you want to plot the results? (y/n): ");
+    // Clear the input buffer before reading the character
+    while (getchar() != '\n');
+    scanf("%c", &confirm_char);
 
-    // Draw the plot
-    drawPolarPlot(items, num_items, cog_result, max_r_for_plot);
+    if (confirm_char == 'y' || confirm_char == 'Y') {
+        // Draw the plot only if user confirms
+        drawPolarPlot(items, num_items, cog_result, max_r_for_plot);
+    } else {
+        printf("Plotting skipped as per user's request.\n");
+    }
 
     // Display the calculated center of gravity
     printf("\nCalculated Center of Gravity (COG):\n");
